@@ -29,7 +29,7 @@ export default class ViewPager extends Component {
         // The user has released all touches while this view is the
         // responder. This typically means a gesture has succeeded
         if(Platform.OS == 'windows') {
-          if(gestureState.dx <= -300 && this.state.indicatorIndex + 1 <= this.props.pages.length) {
+          if(gestureState.dx <= -300 && this.state.indicatorIndex + 1 < this.props.pages.length) {
             this.refs.listRef.scrollToIndex({index: this.state.indicatorIndex + 1});
             this.setState({indicatorIndex: this.state.indicatorIndex + 1});
           } else if(gestureState.dx >= 300 && this.state.indicatorIndex - 1 >= 0) {

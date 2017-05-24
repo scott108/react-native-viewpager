@@ -70,6 +70,7 @@ export default class ViewPager extends Component {
           pagingEnabled={true}
           showsHorizontalScrollIndicator={false}
           onScroll={this.handleScroll}
+          scrollEnabled={Platform.OS == 'windows'?false:true} 
           {...this._panResponder.panHandlers}
         />
         {this.props.indicator?

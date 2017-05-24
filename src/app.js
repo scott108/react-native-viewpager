@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Text,
   View,
-  FlatList
+  FlatList,
+  Dimensions
 } from 'react-native';
 import ViewPager from './viewpager';
 import Page1 from './page1';
@@ -20,7 +21,8 @@ export default class App extends Component {
   render() {
     return (
       <ViewPager
-        style={{flex: 1}}
+        style={{width: Dimensions.get('window').width * 2 / 3,
+        height: Dimensions.get('window').height * 2 / 3}}
         pages={[{key: 'page1', component: Page1},
                 {key: 'page2', component: Page2},
                 {key: 'page3', component: Page3}]}

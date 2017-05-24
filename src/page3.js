@@ -11,8 +11,8 @@ export default class Page3 extends Component {
   render() {
     return (
       <View style={[styles.container, 
-      {width: Dimensions.get('window').width,
-       height: Dimensions.get('window').height}]}>
+      {width: Dimensions.get('window').width * 2 / 3,
+       height: Dimensions.get('window').height * 2 / 3}]}>
         <Text style={styles.welcome}>
           Welcome to React Native Page3!
         </Text>

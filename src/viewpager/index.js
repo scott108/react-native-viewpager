@@ -28,17 +28,15 @@ export default class ViewPager extends Component {
       onPanResponderRelease: (evt, gestureState) => {
         // The user has released all touches while this view is the
         // responder. This typically means a gesture has succeeded
-        if(Platform.OS == 'windows') {
-          if(gestureState.dx <= -300 && this.state.indicatorIndex + 1 < this.props.pages.length) {
-            this.refs.listRef.scrollToIndex({index: this.state.indicatorIndex + 1});
-            this.setState({indicatorIndex: this.state.indicatorIndex + 1});
-          } else if(gestureState.dx >= 300 && this.state.indicatorIndex - 1 >= 0) {
-            this.refs.listRef.scrollToIndex({index: this.state.indicatorIndex - 1});
-            this.setState({indicatorIndex: this.state.indicatorIndex - 1});
-          } else {
-            this.refs.listRef.scrollToIndex({index: this.state.indicatorIndex});
-          }
-        } 
+        if(gestureState.dx <= -300 && this.state.indicatorIndex + 1 < this.props.pages.length) {
+          this.refs.listRef.scrollToIndex({index: this.state.indicatorIndex + 1});
+          this.setState({indicatorIndex: this.state.indicatorIndex + 1});
+        } else if(gestureState.dx >= 300 && this.state.indicatorIndex - 1 >= 0) {
+          this.refs.listRef.scrollToIndex({index: this.state.indicatorIndex - 1});
+          this.setState({indicatorIndex: this.state.indicatorIndex - 1});
+        } else {
+          this.refs.listRef.scrollToIndex({index: this.state.indicatorIndex});
+        }
       },
     });
   }
@@ -67,10 +65,10 @@ export default class ViewPager extends Component {
           data={this.props.pages}
           renderItem={({item, index}) => this.props.renderPage(item)}
           horizontal={true}
-          pagingEnabled={true}
+          pagingEnabled={false}
           showsHorizontalScrollIndicator={false}
           onScroll={this.handleScroll}
-          scrollEnabled={Platform.OS == 'windows'?false:true} 
+          scrollEnabled={false} 
           {...this._panResponder.panHandlers}
         />
         {this.props.indicator?

@@ -38,7 +38,7 @@ export default class ViewPager extends Component {
           } else {
             this.refs.listRef.scrollToIndex({index: this.state.indicatorIndex});
           }
-        }
+        } 
       },
     });
   }
@@ -68,7 +68,7 @@ export default class ViewPager extends Component {
           renderItem={({item, index}) => this.props.renderPage(item)}
           horizontal={true}
           pagingEnabled={true}
-          showsHorizontalScrollIndicator={true}
+          showsHorizontalScrollIndicator={false}
           onScroll={this.handleScroll}
           {...this._panResponder.panHandlers}
         />

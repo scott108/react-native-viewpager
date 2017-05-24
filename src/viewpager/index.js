@@ -13,7 +13,7 @@ import {
 export default class ViewPager extends Component {
   constructor(props) {
     super(props);
-    this.state = {indicatorIndex: 0, nowX: 0};
+    this.state = {indicatorIndex: 0};
     this._renderIndicator = this._renderIndicator.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
   }
@@ -56,7 +56,6 @@ export default class ViewPager extends Component {
   handleScroll(event) {
     if(Math.round(event.nativeEvent.contentOffset.x) % Math.floor(this.props.style.width) < 5 && Platform.OS != 'windows') {
       let index = Math.round(event.nativeEvent.contentOffset.x / this.props.style.width);
-      this.setState({nowX: Math.round(event.nativeEvent.contentOffset.x)});
       this.setState({indicatorIndex: index});
     }
   }

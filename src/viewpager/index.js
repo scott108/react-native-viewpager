@@ -27,7 +27,6 @@ export default class ViewPager extends Component {
       onMoveShouldSetPanResponder: (evt, gestureState) => true,
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
       onPanResponderMove: (evt, gestureState) => {
-        console.log(Math.round(this.state.preGestureState) != Math.round(gestureState.dx))
         if(Math.round(this.state.preGestureState) != Math.round(gestureState.dx)) {
           if(gestureState.dx < -0) {
             this.refs.listRef.scrollToIndex({index: this.state.indexOffset += 0.01});
@@ -40,11 +39,11 @@ export default class ViewPager extends Component {
       onPanResponderRelease: (evt, gestureState) => {
         count = 0;
         this.setState({preGestureState: 0})
-        if(gestureState.dx <= -300 && this.state.indicatorIndex + 1 < this.props.pages.length) {
+        if(gestureState.dx <= -this.props.style.width*0.3 && this.state.indicatorIndex + 1 < this.props.pages.length) {
           this.refs.listRef.scrollToIndex({index: this.state.indicatorIndex + 1});
           this.setState({indicatorIndex: this.state.indicatorIndex + 1});
           this.setState({indexOffset: this.state.indicatorIndex + 1})
-        } else if(gestureState.dx >= 300 && this.state.indicatorIndex - 1 >= 0) {
+        } else if(gestureState.dx >= this.props.style.width*0.3 && this.state.indicatorIndex - 1 >= 0) {
           this.refs.listRef.scrollToIndex({index: this.state.indicatorIndex - 1});
           this.setState({indicatorIndex: this.state.indicatorIndex - 1});
           this.setState({indexOffset: this.state.indicatorIndex - 1})
@@ -83,7 +82,7 @@ export default class ViewPager extends Component {
           pagingEnabled={false}
           showsHorizontalScrollIndicator={false}
           onScroll={this.handleScroll}
-          scrollEnabled={false} 
+          scrollEnabled={false}
           {...this._panResponder.panHandlers}
         />
         {this.props.indicator?

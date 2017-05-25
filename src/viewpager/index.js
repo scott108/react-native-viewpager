@@ -13,29 +13,39 @@ import {
 export default class ViewPager extends Component {
   constructor(props) {
     super(props);
-    this.state = {indicatorIndex: 0};
+    this.state = {indicatorIndex: 0, indexOffset: 0};
     this._renderIndicator = this._renderIndicator.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
   }
 
   componentWillMount() {
+    let count = 0
     this._panResponder = PanResponder.create({
       // Ask to be the responder:
       onStartShouldSetPanResponder: (evt, gestureState) => true,
       onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
       onMoveShouldSetPanResponder: (evt, gestureState) => true,
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+      onPanResponderMove: (evt, gestureState) => {
+        if(gestureState.dx < -0) {
+          this.refs.listRef.scrollToIndex({index: this.state.indexOffset += 0.01});
+        } else if(gestureState.dx > 0) {
+          this.refs.listRef.scrollToIndex({index: this.state.indexOffset -= 0.01});
+        }
+      },
       onPanResponderRelease: (evt, gestureState) => {
-        // The user has released all touches while this view is the
-        // responder. This typically means a gesture has succeeded
+        count = 0;
         if(gestureState.dx <= -300 && this.state.indicatorIndex + 1 < this.props.pages.length) {
           this.refs.listRef.scrollToIndex({index: this.state.indicatorIndex + 1});
           this.setState({indicatorIndex: this.state.indicatorIndex + 1});
+          this.setState({indexOffset: this.state.indicatorIndex + 1})
         } else if(gestureState.dx >= 300 && this.state.indicatorIndex - 1 >= 0) {
           this.refs.listRef.scrollToIndex({index: this.state.indicatorIndex - 1});
           this.setState({indicatorIndex: this.state.indicatorIndex - 1});
+          this.setState({indexOffset: this.state.indicatorIndex - 1})
         } else {
           this.refs.listRef.scrollToIndex({index: this.state.indicatorIndex});
+          this.setState({indexOffset: this.state.indicatorIndex})
         }
       },
     });

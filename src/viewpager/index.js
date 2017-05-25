@@ -13,7 +13,7 @@ import {
 export default class ViewPager extends Component {
   constructor(props) {
     super(props);
-    this.state = {indicatorIndex: 0, indexOffset: 0};
+    this.state = {indicatorIndex: 0, indexOffset: 0, preGestureState: 0};
     this._renderIndicator = this._renderIndicator.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
   }
@@ -27,14 +27,19 @@ export default class ViewPager extends Component {
       onMoveShouldSetPanResponder: (evt, gestureState) => true,
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
       onPanResponderMove: (evt, gestureState) => {
-        if(gestureState.dx < -0) {
-          this.refs.listRef.scrollToIndex({index: this.state.indexOffset += 0.01});
-        } else if(gestureState.dx > 0) {
-          this.refs.listRef.scrollToIndex({index: this.state.indexOffset -= 0.01});
+        console.log(Math.round(this.state.preGestureState) != Math.round(gestureState.dx))
+        if(Math.round(this.state.preGestureState) != Math.round(gestureState.dx)) {
+          if(gestureState.dx < -0) {
+            this.refs.listRef.scrollToIndex({index: this.state.indexOffset += 0.01});
+          } else if(gestureState.dx > 0 && this.state.indexOffset - 0.01 >= 0 ) {
+            this.refs.listRef.scrollToIndex({index: this.state.indexOffset -= 0.01});
+          }
+          this.state.preGestureState = gestureState.dx;
         }
       },
       onPanResponderRelease: (evt, gestureState) => {
         count = 0;
+        this.setState({preGestureState: 0})
         if(gestureState.dx <= -300 && this.state.indicatorIndex + 1 < this.props.pages.length) {
           this.refs.listRef.scrollToIndex({index: this.state.indicatorIndex + 1});
           this.setState({indicatorIndex: this.state.indicatorIndex + 1});

@@ -37,19 +37,21 @@ export default class ViewPager extends Component {
         }
       },
       onPanResponderRelease: (evt, gestureState) => {
-        count = 0;
-        this.setState({preGestureState: 0})
-        if(gestureState.dx <= -this.props.style.width*0.3 && this.state.indicatorIndex + 1 < this.props.pages.length) {
-          this.refs.listRef.scrollToIndex({index: this.state.indicatorIndex + 1});
-          this.setState({indicatorIndex: this.state.indicatorIndex + 1});
-          this.setState({indexOffset: this.state.indicatorIndex + 1})
-        } else if(gestureState.dx >= this.props.style.width*0.3 && this.state.indicatorIndex - 1 >= 0) {
-          this.refs.listRef.scrollToIndex({index: this.state.indicatorIndex - 1});
-          this.setState({indicatorIndex: this.state.indicatorIndex - 1});
-          this.setState({indexOffset: this.state.indicatorIndex - 1})
-        } else {
-          this.refs.listRef.scrollToIndex({index: this.state.indicatorIndex});
-          this.setState({indexOffset: this.state.indicatorIndex})
+        if(Platform.OS == 'windows') {
+          count = 0;
+          this.setState({preGestureState: 0})
+          if(gestureState.dx <= -this.props.style.width*0.3 && this.state.indicatorIndex + 1 < this.props.pages.length) {
+            this.refs.listRef.scrollToIndex({index: this.state.indicatorIndex + 1});
+            this.setState({indicatorIndex: this.state.indicatorIndex + 1});
+            this.setState({indexOffset: this.state.indicatorIndex + 1})
+          } else if(gestureState.dx >= this.props.style.width*0.3 && this.state.indicatorIndex - 1 >= 0) {
+            this.refs.listRef.scrollToIndex({index: this.state.indicatorIndex - 1});
+            this.setState({indicatorIndex: this.state.indicatorIndex - 1});
+            this.setState({indexOffset: this.state.indicatorIndex - 1})
+          } else {
+            this.refs.listRef.scrollToIndex({index: this.state.indicatorIndex});
+            this.setState({indexOffset: this.state.indicatorIndex})
+          }
         }
       },
     });
@@ -79,10 +81,10 @@ export default class ViewPager extends Component {
           data={this.props.pages}
           renderItem={({item, index}) => this.props.renderPage(item)}
           horizontal={true}
-          pagingEnabled={false}
+          pagingEnabled={true}
           showsHorizontalScrollIndicator={false}
           onScroll={this.handleScroll}
-          scrollEnabled={false}
+          scrollEnabled={Platform.OS != 'windows'? true:false}
           {...this._panResponder.panHandlers}
         />
         {this.props.indicator?

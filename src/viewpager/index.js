@@ -22,16 +22,13 @@ export default class ViewPager extends Component {
     let count = 0
     this._panResponder = PanResponder.create({
       // Ask to be the responder:
-      onStartShouldSetPanResponder: (evt, gestureState) => true,
-      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
-      onMoveShouldSetPanResponder: (evt, gestureState) => true,
-      onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+      onMoveShouldSetPanResponderCapture: (evt, gestureState) => {return Math.abs(gestureState.dx) > 10;},
       onPanResponderMove: (evt, gestureState) => {
         if(Math.round(this.state.preGestureState) != Math.round(gestureState.dx)) {
           if(gestureState.dx < -0) {
-            this.refs.listRef.scrollToIndex({index: this.state.indexOffset += 0.01});
+            this.refs.listRef.scrollToIndex({index: this.state.indexOffset += Math.abs(this.state.preGestureState - gestureState.dx) / 1000});
           } else if(gestureState.dx > 0 && this.state.indexOffset - 0.01 >= 0 ) {
-            this.refs.listRef.scrollToIndex({index: this.state.indexOffset -= 0.01});
+            this.refs.listRef.scrollToIndex({index: this.state.indexOffset -= Math.abs(this.state.preGestureState - gestureState.dx) / 1000});
           }
           this.state.preGestureState = gestureState.dx;
         }
@@ -54,6 +51,7 @@ export default class ViewPager extends Component {
           }
         }
       },
+      
     });
   }
 

@@ -6,7 +6,8 @@ import {
   FlatList,
   Dimensions,
   ListView,
-  Image
+  Image,
+  TouchableHighlight
 } from 'react-native';
 
 export default class Page1 extends Component {
@@ -44,12 +45,15 @@ export default class Page1 extends Component {
           width: Dimensions.get('window').width * 2 / 3}]}
           scrollEnabled={false} 
           dataSource={this.state.dataSource}
-          renderRow={(rowData) => 
+          renderRow={(rowData) =>
+            <TouchableHighlight
+              onPress={() => {}}
+              underlayColor='yellow'>
               <Image style={styles.itemBackground}
               source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}>
                 <Text style={styles.item}>{rowData}</Text>
               </Image>
-  
+            </TouchableHighlight>
           }
         />
         

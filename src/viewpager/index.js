@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import {
-  AppRegistry,
-  StyleSheet,
-  Text,
   View,
   FlatList,
-  Dimensions,
   Platform,
   PanResponder
 } from 'react-native';

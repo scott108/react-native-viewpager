@@ -15,7 +15,6 @@ export default class ViewPager extends Component {
   }
 
   componentWillMount() {
-    let count = 0
     this._panResponder = PanResponder.create({
       // Ask to be the responder:
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => {return Math.abs(gestureState.dx) > 10;},
@@ -31,7 +30,6 @@ export default class ViewPager extends Component {
       },
       onPanResponderRelease: (evt, gestureState) => {
         if(Platform.OS == 'windows') {
-          count = 0;
           this.setState({preGestureState: 0})
           if(gestureState.dx <= -this.props.style.width*0.3 && this.state.indicatorIndex + 1 < this.props.pages.length) {
             this.refs.listRef.scrollToIndex({index: this.state.indicatorIndex + 1});

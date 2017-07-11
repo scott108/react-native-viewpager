@@ -77,6 +77,9 @@ export default class ViewPager extends Component {
           showsHorizontalScrollIndicator={false}
           onScroll={this.handleScroll}
           scrollEnabled={Platform.OS != 'windows'? true:false}
+          getItemLayout={(data, index) => (
+            {length: this.props.style.width, offset: this.props.style.width * index, index}
+          )}
           {...this._panResponder.panHandlers}
         />
         {this.props.indicator?
